@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>طلباتي</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="../js/script.js" defer></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding-bottom: 70px;
+    }
+
+    .header {
+      background-color: #0e0e0e;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      font-size: 20px;
+    }
+
+    .order {
+      background: #fff;
+      margin: 15px;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .order h3 {
+      margin: 0 0 5px;
+    }
+
+    .order p {
+      margin: 5px 0;
+      color: #333;
+      font-size: 14px;
+    }
+
+    .empty {
+      text-align: center;
+      margin-top: 50px;
+      font-size: 18px;
+      color: #888;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      height: 60px;
+      background-color: #fff;
+      border-top: 1px solid #ccc;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 999;
+    }
+
+    .nav-item {
+      text-align: center;
+      color: #888;
+      font-size: 12px;
+      text-decoration: none;
+    }
+
+    .nav-item i {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 3px;
+    }
+
+    .nav-item.active {
+      color: #00c853;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">طلباتي</div>
+  <div id="ordersContainer"></div>
+
+  <div class="bottom-nav">
+    <a href="dashboard.html" class="nav-item">
+      <i class="fas fa-home"></i>
+      الرئيسية
+    </a>
+    <a href="vip.html" class="nav-item">
+      <i class="fas fa-th-large"></i>
+      المنتجات
+    </a>
+    <a href="my-team.html" class="nav-item">
+      <i class="fas fa-star"></i>
+      الفريق
+    </a>
+    <a href="my-profile.html" class="nav-item">
+      <i class="fas fa-user"></i>
+      حسابي
+    </a>
+  </div>
+
+  <script>
+    const orders = JSON.parse(localStorage.getItem("orders")) || [];
+    const container = document.getElementById("ordersContainer");
+
+    if (orders.length === 0) {
+      container.innerHTML = '<div class="empty">لا توجد طلبات حتى الآن.</div>';
+    } else {
+      orders.forEach(order => {
+        const orderDiv = document.createElement("div");
+        orderDiv.className = "order";
+        orderDiv.innerHTML = `
+          <h3>${order.name}</h3>
+          <p>تاريخ الشراء: ${order.date}</p>
+          <p>المدة المتبقية: ${order.remainingDays} يوم</p>
+          <p>الدخل اليومي: ${order.dailyIncome} جنيه</p>
+          <p>إجمالي الدخل: ${order.totalIncome} جنيه</p>
+        `;
+        container.appendChild(orderDiv);
+      });
+    }
+  </script>
+</body>
+</html>

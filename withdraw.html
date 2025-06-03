@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>سحب الأموال</title>
+  <style>
+    /* ضبط الجسم بحيث يكون بعرض موبايل */
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #fff;
+      margin: 0 auto;
+      padding: 10px;
+      direction: rtl;
+      max-width: 375px;  /* هذا تقريبًا عرض شاشة موبايل */
+      box-sizing: border-box;
+    }
+
+    .header {
+      background-color: #28c76f;
+      color: white;
+      padding: 12px 15px;
+      text-align: center;
+      position: relative;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 8px;
+    }
+
+    .back-button {
+      position: absolute;
+      left: 15px;
+      top: 12px;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    .balance-banner {
+      position: relative;
+      width: 100%;
+      height: 140px;
+      overflow: hidden;
+      margin: 15px 0 10px;
+      border-radius: 8px;
+    }
+
+    .balance-banner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .balance-text {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 6px 12px;
+      border-radius: 8px;
+    }
+
+    .withdraw-container {
+      padding: 0;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .withdraw-container label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .withdraw-container input {
+      width: 100%;
+      padding: 8px 12px;
+      margin-top: 6px;
+      margin-bottom: 8px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    .info {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 8px;
+    }
+
+    .withdraw-button {
+      background-color: #28c76f;
+      color: white;
+      width: 100%;
+      padding: 12px 0;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 12px;
+    }
+
+    .instructions {
+      margin-top: 18px;
+      background: #f9f9f9;
+      padding: 14px 12px;
+      border-radius: 8px;
+    }
+
+    .instructions h2 {
+      margin-bottom: 8px;
+      font-size: 16px;
+    }
+
+    .instructions ol {
+      padding-right: 15px;
+    }
+
+    .instructions li {
+      margin-bottom: 6px;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <button class="back-button" onclick="window.location.href='dashboard.html'">&larr;</button>
+    سحب الأموال
+  </header>
+
+  <div class="balance-banner">
+    <img src="balance-bg.jpg" alt="رصيد الحساب" />
+    <div class="balance-text">EGP 0.00</div>
+  </div>
+
+  <div class="withdraw-container">
+    <label>ادخل رقم الحساب</label>
+    <input type="tel" id="accountNumber" placeholder="مثال: 01012345678" />
+
+    <label>مبلغ السحب</label>
+    <input
+      type="number"
+      id="amount"
+      placeholder="الرجاء إدخال مبلغ السحب"
+      oninput="calculateNetAmount()"
+    />
+
+    <p class="info" id="netAmountInfo">
+      المبلغ بعد الخصم: EGP 0.00 | الضريبة: 10%
+    </p>
+
+    <button class="withdraw-button" onclick="submitWithdraw()">سحب الآن</button>
+
+    <div class="instructions">
+      <h2>تعليمات السحب</h2>
+      <ol>
+        <li>الحد الأدنى للسحب هو 100 جنيه.</li>
+        <li>لا يوجد حد أقصى لعدد مرات السحب.</li>
+        <li>يتم خصم 10٪ كرسوم صيانة.</li>
+        <li>تُعالج العمليات خلال 24 ساعة بعد مراجعة القسم المالي.</li>
+        <li>يجب إدخال معلومات الحساب بشكل صحيح.</li>
+      </ol>
+    </div>
+  </div>
+
+  <script>
+    function calculateNetAmount() {
+      const amountInput = document.getElementById("amount");
+      const netAmountInfo = document.getElementById("netAmountInfo");
+      const amount = parseFloat(amountInput.value);
+      if (!isNaN(amount)) {
+        const fee = amount * 0.10;
+        const net = amount - fee;
+        netAmountInfo.textContent = `المبلغ بعد الخصم: EGP ${net.toFixed(
+          2
+        )} | الضريبة: 10%`;
+      } else {
+        netAmountInfo.textContent = "المبلغ بعد الخصم: EGP 0.00 | الضريبة: 10%";
+      }
+    }
+
+    function submitWithdraw() {
+      const accountNumber = document
+        .getElementById("accountNumber")
+        .value.trim();
+      const amount = parseFloat(document.getElementById("amount").value.trim());
+
+      if (accountNumber.length < 11) {
+        alert("يرجى إدخال رقم حساب مكون من 11 رقم على الأقل.");
+        return;
+      }
+
+      if (isNaN(amount) || amount < 100) {
+        alert(" EGP الحد الأدنى للسحب هو 100 .");
+        return;
+      }
+
+      alert("تم إرسال طلب السحب بنجاح!");
+      // يمكنك هنا إرسال البيانات للسيرفر أو تنفيذ أي إجراء آخر
+    }
+  </script>
+</body>
+</html>

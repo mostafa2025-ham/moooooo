@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/script.js" defer></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>فريقي</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding-bottom: 70px; /* مساحة لشريط التنقل السفلي */
+    }
+    .header {
+      background-image: url('./images/فريق.png');
+      background-size: cover;
+      background-position: center;
+      height: 180px;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .levels {
+      display: flex;
+      justify-content: space-around;
+      background-color: #fff;
+      padding: 20px 10px;
+      text-align: center;
+    }
+    .level-box {
+      width: 30%;
+      border-radius: 10px;
+    }
+    .level-box h3 {
+      background-color: #eee;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: green;
+    }
+    .share-section {
+      background-color: #fff;
+      margin: 10px;
+      padding: 15px;
+      border-radius: 10px;
+      text-align: center;
+    }
+    .share-section img {
+      width: 100px;
+      margin-bottom: 10px;
+    }
+    .input-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #f6f6f6;
+      border-radius: 20px;
+      padding: 10px 15px;
+      margin: 10px 10px;
+    }
+    .input-row span {
+      flex-grow: 1;
+      margin: 0 10px;
+      font-weight: bold;
+      word-break: break-word;
+    }
+    .copy-btn {
+      background-color: #1ac66e;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      padding: 5px 15px;
+      cursor: pointer;
+    }
+    .team-data {
+      background-color: #1ac66e;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    .team-data p {
+      margin: 5px 0;
+    }
+    .bonus-section {
+      background-color: #fff;
+      margin: 10px;
+      padding: 15px;
+      border-radius: 10px;
+    }
+    .bonus-section h4 {
+      margin-top: 0;
+    }
+
+    /* شريط التنقل السفلي */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      display: flex;
+      background-color: #fff;
+      border-top: 1px solid #ccc;
+      z-index: 1000;
+    }
+    .bottom-nav .nav-item {
+      flex: 1;
+      text-align: center;
+      padding: 10px 0;
+      font-size: 14px;
+      color: #666;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .bottom-nav .nav-item i {
+      font-size: 20px;
+      margin-bottom: 3px;
+    }
+    .bottom-nav .nav-item.active {
+      color: #1ac66e;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">The team</div>
+
+  <div class="levels">
+    <div class="level-box">
+      <h3>LV1</h3>
+      <p>Cashback 8%</p>
+      <p>Total People 0</p>
+      <p>Deposit USDT0.00</p>
+      <p>Withdrawal EGP0.00</p>
+    </div>
+    <div class="level-box">
+      <h3>LV2</h3>
+      <p>Cashback 3%</p>
+      <p>Total People 0</p>
+      <p>Deposit EGP0.00</p>
+      <p>Withdrawal EGP0.00</p>
+    </div>
+    <div class="level-box">
+      <h3>LV3</h3>
+      <p>Cashback 0%</p>
+      <p>Total People 0</p>
+      <p>Deposit EGP0.00</p>
+      <p>Withdrawal EGP0.00</p>
+    </div>
+  </div>
+
+  <div class="input-row">
+    <span id="invite-code">تحميل...</span>
+    <button class="copy-btn" onclick="copyText('invite-code')">نسخ</button>
+  </div>
+
+  <div class="input-row">
+    <span id="invite-link">تحميل...</span>
+    <button class="copy-btn" onclick="copyText('invite-link')">نسخ</button>
+  </div>
+
+  <div class="team-data">
+    <p>0</p>
+    <p>عدد أعضاء الفريق</p>
+    <p>EGP0.00</p>
+    <p>إجمالي الاستثمار</p>
+  </div>
+
+  <div class="bonus-section">
+    <h4>مكافأة الدعوة</h4>
+    <p>إذا دعوت صديق للاشتراك، ستحصل على نسبة من أرباحه اليومية حسب المستوى:</p>
+    <ul>
+      <li>المستوى الأول: 8%</li>
+      <li>المستوى الثاني: 3%</li>
+      <li>المستوى الثالث: 0%</li>
+    </ul>
+  </div>
+
+  <!-- شريط التنقل السفلي -->
+  <div class="bottom-nav">
+    <a href="dashboard.html" class="nav-item">
+      <i class="fas fa-home"></i>
+      الرئيسية
+    </a>
+    <a href="vip.html" class="nav-item">
+      <i class="fas fa-th-large"></i>
+      المنتجات
+    </a>
+    <a href="my-team.html" class="nav-item active">
+      <i class="fas fa-star"></i>
+      الفريق
+    </a>
+    <a href="my-profile.html" class="nav-item">
+      <i class="fas fa-user"></i>
+      حسابي
+    </a>
+  </div>
+
+  <script>
+    function copyText(id) {
+      const text = document.getElementById(id).innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        alert('تم النسخ');
+      });
+    }
+
+    // تحميل رمز الدعوة والرابط من localStorage
+    window.onload = function () {
+      const user = JSON.parse(localStorage.getItem("user"));
+      if (user && user.inviteCode) {
+        document.getElementById("invite-code").innerText = user.inviteCode;
+        document.getElementById("invite-link").innerText = `${window.location.origin}/register.html?ref=${user.inviteCode}`;
+      } else {
+        document.getElementById("invite-code").innerText = "غير مسجل";
+        document.getElementById("invite-link").innerText = "رابط غير متاح";
+      }
+    };
+  </script>
+
+</body>
+</html>

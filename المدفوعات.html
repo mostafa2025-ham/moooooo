@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>المدفوعات</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      direction: rtl;
+      margin: 0;
+    }
+    .payment-box {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 320px;
+    }
+    .payment-box h2 {
+      margin-bottom: 20px;
+      color: #00c853;
+    }
+    .amount {
+      font-size: 24px;
+      margin: 20px 0;
+      color: #333;
+    }
+    input[type="text"] {
+      padding: 10px;
+      width: 90%;
+      font-size: 16px;
+      margin: 10px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
+    button {
+      background: #00c853;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .message {
+      font-size: 18px;
+      margin-top: 20px;
+      display: none;
+    }
+    .success {
+      color: #00a000;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="payment-box">
+    <h2>إدفع واستلم الرصيد</h2>
+    <div>المبلغ المراد شحنه:</div>
+    <div class="amount" id="amountDisplay">--</div>
+    
+    <input type="text" id="codeInput" placeholder="ادخل كود الدفع">
+    <button onclick="confirmPayment()">تأكيد الدفع</button>
+
+    <div class="message" id="messageBox"></div>
+  </div>
+
+  <script>
+    // الأكواد المتاحة
+    const validCodes = [
+      "50608850", "50808853", "50985858", "80985563", "86745287",
+      "63585632", "85736958", "82141586", "95423527", "89673524",
+      "98357652", "85573642", "96730585", "98539758", "93758025", "97360852"
+    ];
+
+    const usedKey = "usedPaymentCode"; // لتخزين الكود المستخدم
+    const storedAmount = parseFloat(localStorage.getItem("rechargeAmount")) || 0;
+
+    document.getElementById("amountDisplay").textContent = `EGP ${storedAmount}`;
+
+    function confirmPayment() {
+      const inputCode = document.getElementById("codeInput").value.trim();
+      const messageBox = document.getElementById("messageBox");
+
+      const alreadyUsedCode = localStorage.getItem(usedKey);
+
+      if (alreadyUsedCode) {
+        messageBox.textContent = "⚠ لقد استخدمت كود دفع بالفعل ولا يمكنك استخدام كود آخر.";
+        messageBox.className = "message error";
+        messageBox.style.display = "block";
+        return;
+      }
+
+      if (validCodes.includes(inputCode)) {
+        // إضافة الرصيد وتخزين الكود المستخدم
+        let balance = parseFloat(localStorage.getItem("balance")) || 0;
+        balance += storedAmount;
+        localStorage.setItem("balance", balance.toFixed(2));
+        localStorage.setItem(usedKey, inputCode);
+
+        messageBox.textContent = "✅ تم إضافة الرصيد بنجاح!";
+        messageBox.className = "message success";
+        messageBox.style.display = "block";
+
+        setTimeout(() => {
+          window.location.href = "products.html";
+        }, 2000);
+      } else {
+        messageBox.textContent = "❌ الكود غير صحيح.";
+        messageBox.className = "message error";
+        messageBox.style.display = "block";
+      }
+    }
+  </script>
+
+</body>
+</html>

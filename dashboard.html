@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/script.js" defer></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>لوحة التحكم</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      padding-bottom: 70px;
+    }
+
+    .slider {
+      width: 100%;
+      height: 180px;
+    }
+
+    .slider img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .top-icons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      background-color: white;
+      padding: 10px;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .icon-box {
+      width: 22%;
+      margin: 10px 0;
+      text-align: center;
+      color: #333;
+      cursor: pointer;
+    }
+
+    .icon-box i {
+      font-size: 14px;
+      color: green;
+    }
+
+    .icon-box p {
+      margin: 5px 0 0;
+      font-size: 14px;
+    }
+
+    .notification-bar {
+      background-color: white;
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .notification-bar i {
+      color: green;
+    }
+
+    marquee {
+      flex: 1;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .mission-banner img {
+      width: 100%;
+      display: block;
+    }
+
+    .balance-container {
+      background-color: white;
+      padding: 15px;
+      margin: 10px;
+      border-radius: 10px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+
+    .balance-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    .balance-values {
+      display: flex;
+      justify-content: space-between;
+      text-align: center;
+    }
+
+    .balance-box {
+      flex: 1;
+    }
+
+    .balance-box h3 {
+      margin: 0;
+      color: green;
+      font-size: 18px;
+    }
+
+    .balance-box p {
+      margin: 5px 0 0;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .partners {
+      background-color: white;
+      margin: 10px;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .partners h3 {
+      margin-bottom: 15px;
+      color: #333;
+    }
+
+    .logos {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .logos img {
+      height: 30px;
+      object-fit: contain;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background-color: white;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      border-top: 1px solid #ccc;
+      height: 60px;
+      z-index: 1000;
+    }
+
+    .nav-item {
+      text-align: center;
+      font-size: 12px;
+      color: #888;
+      text-decoration: none;
+    }
+
+    .nav-item.active {
+      color: green;
+    }
+
+    .nav-item i {
+      display: block;
+      font-size: 20px;
+      margin-bottom: 3px;
+    }
+  </style>
+</head>
+
+
+
+
+
+
+
+
+
+
+
+<body style="min-height: 100%; width: 100%; background-size: 100% auto; background: #f1f1f1; ">
+<div class="indexdiv" style="display: block;" onclick="closeMainPop()"></div>
+<div
+    style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; margin: 0px auto; z-index: 102; height: 460px; width: 100%; max-width: 450px; display: block;"
+    id="noctie">
+    <div
+        style="position: relative; width: 100%; text-align: center; height: auto; margin: 0 auto; width: 90%; background:#fff; background-size: 100% 100%; height: 450px; border-radius: 10px; color: #000; margin-top: 10px; ">
+        <div style="position:absolute; top:-50px; left:10px;">
+            <img src="https://2025.makemoneyx.xyz/public/ui3/ld.png" style="height:100px;">
+        </div>
+        <div
+            style="background: #3DC46D; height: 80px; border-radius: 8px; line-height: 80px; color: #fff; font-weight: bold; font-size: 18px; border-bottom-left-radius: 0px; border-bottom-right-radius: 0px; ">
+            <font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+                    Notify
+                </font></font></div>
+        <div
+            style="width:90%;position:relative; margin:0 auto;  height:auto; overflow:hidden;border:0px; padding-top:12px; font-size:12px;line-height:19px; text-align:left; ">
+            <div
+                style="max-height: 195px; padding: 10px; border-radius: 5px; overflow: scroll; background: #eee; font-size: 12px !important; color: rgb(1,140,148); "
+                id="notice_info">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium atque autem, blanditiis deleniti                 distinctio facere impedit inventore ipsam labore laborum magnam maiores mollitia odit perspiciatis quis                 quos rem rerum sapiente temporibus totam. Aliquid, earum explicabo impedit quos sit totam veritatis?                 Animi aperiam atque autem dignissimos doloribus dolorum, eligendi error facilis labore, maiores minima                 odio odit quae quia quidem reiciendis rem saepe sapiente similique soluta suscipit velit voluptatum.                 Distinctio, doloribus enim est expedita fugit ipsa itaque magnam minima nisi, nobis nostrum perferendis                 quas ratione rem similique sit voluptate. Aliquid animi ea eveniet ipsa laudantium officia repellendus                 sint sunt tempora, vero. Unde.
+            </div>
+        </div>
+        <div style="line-height:24px; font-size:12px; width:100%; margin-top:20px; bottom:30px;  text-align:center;">
+            <button id="Join"
+                    onclick="window.location.href='....'"
+                    style=" height: 40px; width: 40px; border: 0px; width: 90%; background: #1476ff; color: #fff; border-radius: 25px; ">
+                <img src="https://2025.makemoneyx.xyz/public/ui/cs_t1.png"
+                     style="height:22px; margin-bottom:3px; margin-right:5px;"><font
+                    style="vertical-align: inherit;"><font style="vertical-align: inherit;">Click to join the official
+                        Telegram channel
+                    </font></font></button>
+        </div>
+        <div style="width:100%; text-align:center; margin-top:15px;">
+            <button class="cmbtn" id="close" style=" height: 40px; border: 0px; width: 90%;  " onclick="closeMainPop()">
+                <font style="vertical-align: inherit;">
+                    <font style="vertical-align: inherit;">OK</font>
+                </font>
+            </button>
+        </div>
+    </div>
+</div>
+
+
+
+<div style=" max-width:450px; margin:0 auto;">
+    <div class="top1">
+    </div>
+
+
+
+
+
+                                                                                         
+
+
+
+                                                                            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<body>
+
+  <!-- صورة ثابتة -->
+  <div class="slider">
+    <img src="./images/8w02cv64.png" alt="صورة ثابتة">
+  </div>
+
+
+      خدمة العملاء
+
+
+  <div class="top-icons">
+    <div class="icon-box" onclick="location.href='recharge.html'"><i class="fas fa-dollar-sign"></i><p>إعادة الشحن</p></div>
+    <div class="icon-box" onclick="location.href='withdraw.html'"><i class="fas fa-money-bill-wave"></i><p>سحب الأموال</p></div>
+    <div class="icon-box" onclick="location.href='خدمة العملاء.html'"><i class="fas fa-money-bill-wave"></i><p> خدمة العملاء</p></div>
+    <div class="icon-box"><i class="fas fa-download"></i><p>تحميل التطبيق</p></div>
+    <div class="icon-box" onclick="location.href='daily.html'"><i class="fas fa-calendar-check"></i><p>تسجيل يومي</p></div>
+    <div class="icon-box"><i class="fas fa-list-check"></i><p>قائمة المهام</p></div>
+    <div class="icon-box" onclick="window.location.href='https://t.me/AUTEL1D'"><i class="fab fa-telegram-plane"></i><p>انضم لنا</p></div>
+    <div class="icon-box" onclick="logout()"><i class="fas fa-sign-out-alt"></i><p>تسجيل الخروج</p></div>
+  </div>
+
+  <div class="notification-bar">
+    <i class="fas fa-bell"></i>
+    <marquee>مرحبًا بك في موقعنا، لا تنسى تنفيذ المهام اليومية للحصول على المكافآت!</marquee>
+  </div>
+
+  <div class="mission-banner">
+    <img src="./images/task.png" alt="إعلان المهمة">
+  </div>
+
+  <div class="balance-container">
+    <div class="balance-title">
+      <span>إجمالي الأصول</span>
+      <span>السجل المالي</span>
+    </div>
+    <div class="balance-values">
+      <div class="balance-box">
+        <h3 id="balanceAmount">EGP0.00</h3>
+        <p>الرصيد</p>
+      </div>
+      <div class="balance-box">
+        <h3 id="dailyIncome">EGP0.00</h3>
+        <p>الدخل اليومي</p>
+      </div>
+      <div class="balance-box">
+        <h3 id="totalIncome">EGP0.00</h3>
+        <p>مجموع الدخل</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="partners">
+    <h3>شركاؤنا</h3>
+    <div class="logos">
+      <img src="./images/1.png" alt="Autel">
+      <img src="./images/2.png" alt="EVgo">
+      <img src="./images/3.png" alt="EVBox">
+      <img src="./images/4.png" alt="Tesla">
+      <img src="./images/5.png" alt="BYD">
+      <img src="./images/6.png" alt="Mercedes">
+      <img src="./images/7.png" alt="Tether">
+      <img src="./images/8.png" alt="Binance">
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+    <a href="dashboard.html" class="nav-item active">
+      <i class="fas fa-home"></i>
+      الرئيسية
+    </a>
+    <a href="vip.html" class="nav-item">
+      <i class="fas fa-th-large"></i>
+      المنتجات
+    </a>
+    <a href="my-team.html" class="nav-item">
+      <i class="fas fa-star"></i>
+      الفريق
+    </a>
+    <a href="my-profile.html" class="nav-item">
+      <i class="fas fa-user"></i>
+      حسابي
+    </a>
+  </div>
+
+  <script>
+    const phone = localStorage.getItem("loggedIn");
+    if (!phone) {
+      window.location.href = "login.html";
+    }
+
+    function logout() {
+      localStorage.removeItem("loggedIn");
+      // ممكن تمسح الرصيد عند الخروج لو عايز:
+      // localStorage.removeItem("balance");
+      window.location.href = "login.html";
+    }
+
+    // دالة لتحديث الرصيد في الصفحة
+    function updateBalance() {
+      const balance = parseFloat(localStorage.getItem("balance")) || 0;
+      document.getElementById("balanceAmount").innerText = `EGP${balance.toFixed(2)}`;
+    }
+
+    // استدعاء تحديث الرصيد عند تحميل الصفحة
+    updateBalance();
+  </script>
+
+</body>
+</html>

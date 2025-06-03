@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>إنشاء حساب</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background: linear-gradient(to bottom, #2ecc71, #ffffff);
+      text-align: center;
+    }
+    .container {
+      padding: 20px;
+      max-width: 400px;
+      margin: auto;
+    }
+    .logo {
+      margin: 30px 0;
+      font-size: 36px;
+      color: white;
+      font-weight: bold;
+    }
+    h2 {
+      color: white;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      text-align: right;
+      direction: rtl;
+      background-color: #ffffff;
+      box-sizing: border-box;
+    }
+    input::placeholder {
+      direction: rtl;
+      text-align: right;
+      color: #999;
+    }
+    .captcha-section {
+      position: relative;
+      margin-top: 10px;
+    }
+    .refresh-btn {
+      position: absolute;
+      left: 0;
+      top: -20px;
+      background: none;
+      border: none;
+      color: #ffffff;
+      cursor: pointer;
+      font-size: 14px;
+      padding: 0;
+    }
+    .captcha-wrapper {
+      position: relative;
+    }
+    .captcha-code {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-weight: bold;
+      color: #000;
+      font-size: 16px;
+    }
+    #code {
+      padding-left: 60px;
+    }
+    .btn {
+      background-color: #2ecc71;
+      color: white;
+      font-size: 18px;
+      padding: 12px;
+      width: 100%;
+      border: none;
+      border-radius: 30px;
+      margin-top: 10px;
+    }
+    .link {
+      margin-top: 15px;
+    }
+    .link a {
+      color: #0f0f0f;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">AUTEL</div>
+    <h2>إنشاء حساب جديد</h2>
+    <input type="text" id="phone" placeholder="رقم الهاتف" />
+    <input type="password" id="password" placeholder="كلمة المرور" />
+    <input type="password" id="confirm" placeholder="تأكيد كلمة المرور" />
+    <input type="text" id="invite" placeholder="رمز الدعوة (اختياري)" />
+
+    <div class="captcha-section">
+      <button class="refresh-btn" onclick="generateCaptcha()">تغيير الرمز</button>
+      <div class="captcha-wrapper">
+        <span class="captcha-code" id="fixedCode">1234</span>
+        <input type="text" id="code" placeholder="ادخل رمز التحقق" />
+      </div>
+    </div>
+
+    <button class="btn" onclick="register()">تسجيل الآن</button>
+    <div class="link">
+      <a href="login.html">هل لديك حساب بالفعل؟ سجل الدخول</a>
+    </div>
+  </div>
+
+  <script>
+    let generatedCode;
+
+    function generateCaptcha() {
+      generatedCode = Math.floor(1000 + Math.random() * 9000);
+      document.getElementById("fixedCode").textContent = generatedCode;
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const refPhone = urlParams.get("ref");
+    if (refPhone) {
+      document.getElementById("invite").value = refPhone;
+    }
+
+    function register() {
+      const phone = document.getElementById("phone").value;
+      const password = document.getElementById("password").value;
+      const confirm = document.getElementById("confirm").value;
+      const inviteCode = document.getElementById("invite").value;
+      const code = document.getElementById("code").value;
+
+      if (!phone || !password || !confirm || !code) {
+        alert("يرجى ملء جميع الحقول");
+        return;
+      }
+
+      if (!/^\d{11}$/.test(phone)) {
+        alert("يرجى إدخال رقم هاتف صحيح مكون من 11 رقمًا");
+        return;
+      }
+
+      if (password !== confirm) {
+        alert("كلمتا المرور غير متطابقتين");
+        return;
+      }
+
+      if (code.trim() != generatedCode) {
+        alert("رمز التحقق غير صحيح");
+        return;
+      }
+
+      localStorage.setItem("userPhone", phone);
+      localStorage.setItem("userPassword", password);
+
+      if (inviteCode.trim() !== "") {
+        localStorage.setItem("userInviteCode", inviteCode.trim());
+
+        const teamKey = `team_${inviteCode.trim()}`;
+        const teamData = JSON.parse(localStorage.getItem(teamKey)) || [];
+        const now = new Date().toLocaleString("ar-EG");
+
+        teamData.push({
+          phone: phone,
+          time: now
+        });
+
+        localStorage.setItem(teamKey, JSON.stringify(teamData));
+      }
+
+      const myInviteLink = `${window.location.origin}/register.html?ref=${phone}`;
+      localStorage.setItem("myInviteLink", myInviteLink);
+
+      alert("تم إنشاء الحساب بنجاح!");
+      window.location.href = "login.html";
+    }
+
+    generateCaptcha();
+  </script>
+</body>
+</html>

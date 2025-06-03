@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>تسجيل الدخول</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #00c853, #b2fab4);
+      margin: 0;
+      padding: 0;
+      direction: rtl;
+    }
+
+    .container {
+      max-width: 320px;
+      margin: 50px auto;
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 25px 20px;
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+
+    .logo {
+      margin-bottom: 20px;
+    }
+
+    .logo img {
+      width: 100px;
+    }
+
+    h2 {
+      color: white;
+      margin-bottom: 25px;
+      font-size: 20px;
+    }
+
+    .input-group {
+      position: relative;
+      margin: 15px auto;
+      width: 100%;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 10px 40px 10px 45px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 14px;
+      text-align: right;
+      background-color: white;
+      box-sizing: border-box;
+    }
+
+    .input-group i {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #00c853;
+    }
+
+    .input-group .fa-mobile-alt,
+    .input-group .fa-lock {
+      left: 10px;
+    }
+
+    button {
+      background-color: #00c853;
+      color: white;
+      padding: 12px;
+      width: 100%;
+      border: none;
+      border-radius: 25px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    .register-link {
+      margin-top: 15px;
+      font-size: 14px;
+      color: white;
+    }
+
+    .register-link a {
+      color: white;
+      text-decoration: underline;
+    }
+
+    @media screen and (max-width: 480px) {
+      .container {
+        margin: 20px;
+        padding: 20px 15px;
+      }
+    }
+  </style>
+</head>
+
+
+
+<div style=" max-width:450px; margin:0 auto;">
+    <div class="top1">
+    </div>
+
+
+
+
+
+
+<body>
+
+  <div class="container">
+    <div class="logo">
+      <img src="./images/تسجيل.jpg" alt="شعار">
+    </div>
+
+    <h2>تسجيل الدخول</h2>
+
+    <div class="input-group">
+      <input type="text" id="loginPhone" placeholder="ادخل رقم الهاتف">
+      <i class="fas fa-mobile-alt"></i>
+    </div>
+
+    <div class="input-group">
+      <input type="password" id="loginPassword" placeholder="ادخل كلمة المرور">
+      <i class="fas fa-lock"></i>
+    </div>
+
+    <button onclick="login()">تسجيل الدخول الآن</button>
+
+    <div class="register-link">
+      ليس لديك حساب؟ <a href="register.html">إنشاء حساب</a>
+    </div>
+  </div>
+
+  <script>
+    function login() {
+      const phone = document.getElementById("loginPhone").value;
+      const password = document.getElementById("loginPassword").value;
+
+      const storedPhone = localStorage.getItem("userPhone");
+      const storedPassword = localStorage.getItem("userPassword");
+
+      if (phone === storedPhone && password === storedPassword) {
+        alert("تم تسجيل الدخول بنجاح!");
+        localStorage.setItem("loggedIn", phone);
+        setTimeout(() => {
+          window.location.href = "dashboard.html";
+        }, 1000);
+      } else {
+        alert("رقم الهاتف أو كلمة المرور غير صحيحة");
+      }
+    }
+  </script>
+
+</body>
+</html>

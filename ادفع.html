@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ادفع</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      text-align: center;
+      padding: 20px;
+    }
+    .container {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      max-width: 400px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      margin-bottom: 15px;
+    }
+    .phone-inputs {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 3px;
+      direction: ltr;
+      margin-bottom: 10px;
+    }
+    .phone-inputs input {
+      width: 20px;
+      height: 26px;
+      font-size: 14px;
+      text-align: center;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      padding: 10px 16px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      background: #007bff;
+      color: white;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    button:disabled {
+      background: #aaa;
+      cursor: not-allowed;
+    }
+    .info {
+      margin-top: 15px;
+      font-size: 17px;
+      color: green;
+    }
+    #fileUpload {
+      margin-top: 15px;
+    }
+    #finalConfirm {
+      background: green;
+    }
+    #successMessage {
+      color: green;
+      font-size: 18px;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    #timer {
+      margin-top: 15px;
+      font-size: 18px;
+      color: red;
+    }
+    #warning {
+      color: red;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+
+
+
+
+<div style=" max-width:450px; margin:0 auto;">
+    <div class="top1">
+    </div>
+
+
+
+
+
+
+<body>
+
+<div class="container">
+  <h2>ادخل رقم المحفظة</h2>
+
+  <div id="phoneInputs" class="phone-inputs">
+    <input type="text" maxlength="1" />
+    <input type="text" maxlength="1" />
+    <input type="text" maxlength="1" />
+    <input type="text" maxlength="1" />
+    <input type="text" maxlength="1" />
+    <input type="text" maxlength="1" />
+    <input type="text" maxlength="1" />
+    <input type="text" maxlength="1" />
+    <input type="text" maxlength="1" />
+    <input type="text" maxlength="1" />
+    <input type="text" maxlength="1" />
+  </div>
+
+  <button id="confirmBtn" disabled>تأكيد</button>
+
+  <div id="warning">يرجى العلم: تأكد من رقم المحفظة الذي أدخلته، الشركة غير مسؤولة عن الأرقام غير الصحيحة.</div>
+
+  <div id="successMessage"></div>
+  <div id="timer"></div>
+
+  <div id="afterConfirm" style="display: none;">
+    <p class="info" id="enteredPhone"></p>
+    <p class="info" id="randomPhone"></p>
+    <p class="info" id="selectedAmount"></p> <!-- هنا المبلغ المختار -->
+
+    <br />
+    <input type="file" id="fileUpload" />
+    <br />
+    <button id="finalConfirm" disabled>تأكيد الدفع</button>
+  </div>
+</div>
+
+<script>
+  const inputs = document.querySelectorAll('#phoneInputs input');
+  const confirmBtn = document.getElementById('confirmBtn');
+  const enteredPhone = document.getElementById('enteredPhone');
+  const randomPhone = document.getElementById('randomPhone');
+  const selectedAmount = document.getElementById('selectedAmount');
+  const afterConfirm = document.getElementById('afterConfirm');
+  const fileUpload = document.getElementById('fileUpload');
+  const finalConfirm = document.getElementById('finalConfirm');
+  const successMessage = document.getElementById('successMessage');
+  const timerDiv = document.getElementById('timer');
+
+  const phoneOptions = ["01278240739", "01028823833", "01274646450"];
+
+  inputs.forEach((input, i) => {
+    input.addEventListener('input', () => {
+      input.value = input.value.replace(/[^0-9]/g, '');
+      if (input.value.length === 1 && i < inputs.length - 1) {
+        inputs[i + 1].focus();
+      }
+      checkFilled();
+    });
+
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Backspace' && input.value === '' && i > 0) {
+        inputs[i - 1].focus();
+      }
+    });
+  });
+
+  function checkFilled() {
+    const allFilled = Array.from(inputs).every(inp => inp.value.length === 1);
+    confirmBtn.disabled = !allFilled;
+  }
+
+  confirmBtn.addEventListener('click', () => {
+    const phoneNumber = Array.from(inputs).map(i => i.value).join('');
+    document.getElementById('phoneInputs').style.display = 'none';
+    confirmBtn.style.display = 'none';
+
+    successMessage.textContent = "✅ تم حفظ رقم الهاتف بنجاح";
+
+    enteredPhone.textContent = "رقم المحفظة المدخل: " + phoneNumber;
+    const random = phoneOptions[Math.floor(Math.random() * phoneOptions.length)];
+    randomPhone.textContent = "رقم الدفع: " + random;
+
+    // عرض المبلغ المختار من صفحة الشحن
+    const selectedAmountValue = localStorage.getItem('rechargeAmount') || "غير محدد";
+    selectedAmount.textContent = "المبلغ المختار: " + selectedAmountValue + " جنيه";
+
+    startCountdown(15 * 60);
+
+    afterConfirm.style.display = 'block';
+
+    localStorage.setItem('paymentPhone', phoneNumber);
+    localStorage.setItem('paymentRandom', random);
+  });
+
+  fileUpload.addEventListener('change', () => {
+    finalConfirm.disabled = fileUpload.files.length === 0;
+  });
+
+  finalConfirm.addEventListener('click', () => {
+    const amount = localStorage.getItem('rechargeAmount') || "0";
+    localStorage.setItem('paymentAmount', amount);
+    const expireTime = Date.now() + 15 * 60 * 1000;
+    localStorage.setItem('paymentExpireTime', expireTime);
+
+    alert("✅ تمت العملية بنجاح، جاري المعالجة...");
+    window.location.href = "المدفوعات.html";
+  });
+
+  function startCountdown(seconds) {
+    let time = seconds;
+
+    const interval = setInterval(() => {
+      const min = Math.floor(time / 60).toString().padStart(2, '0');
+      const sec = (time % 60).toString().padStart(2, '0');
+      timerDiv.textContent = `⏳ الوقت المتبقي: ${min}:${sec}`;
+
+      if (time <= 0) {
+        clearInterval(interval);
+        timerDiv.textContent = "⏰ انتهى الوقت!";
+      }
+
+      time--;
+    }, 1000);
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/script.js" defer></script>
+  <meta charset="UTF-8" />
+  <title>I-AM الملف الشخصي</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  />
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #fff;
+      direction: rtl;
+    }
+    .header {
+      background-color: #00c853;
+      color: white;
+      padding: 35px 20px 15px 20px;
+      position: relative;
+      box-sizing: border-box;
+      height: 80px;
+    }
+    .signout-btn {
+      position: absolute;
+      right: 20px;
+      top: 20px;
+      background: none;
+      border: 1px solid #fff;
+      color: white;
+      border-radius: 20px;
+      padding: 5px 15px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .profile-section {
+      text-align: center;
+      margin-top: 20px;
+      background-color: white;
+      padding: 20px;
+    }
+    .profile-logo {
+      background-color: #00c853;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-weight: bold;
+      font-size: 18px;
+    }
+    .phone-number {
+      font-size: 18px;
+      margin-top: 10px;
+    }
+    .quick-actions {
+      display: flex;
+      justify-content: space-around;
+      padding: 20px;
+    }
+    .quick-actions a {
+      text-decoration: none;
+      color: inherit;
+      text-align: center;
+    }
+    .quick-actions i {
+      font-size: 24px;
+      color: #00c853;
+    }
+    .ad-banner {
+      margin: 10px;
+    }
+    .balances {
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+      background-color: #ffffff;
+      border-top: 1px solid #eee;
+      border-bottom: 1px solid #eee;
+    }
+    .balance-box {
+      text-align: center;
+    }
+    .balance-box strong {
+      display: block;
+      margin-top: 5px;
+    }
+    .services {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      padding: 20px 0;
+    }
+    .services div {
+      width: 45%;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+    .services i {
+      font-size: 22px;
+      color: #00c853;
+    }
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: #fff;
+      display: flex;
+      justify-content: space-around;
+      border-top: 1px solid #ccc;
+      padding: 8px 0;
+    }
+    .bottom-nav a {
+      text-decoration: none;
+      color: #666;
+      font-size: 12px;
+      text-align: center;
+    }
+    .bottom-nav a.active {
+      color: #00c853;
+    }
+    .bottom-nav i {
+      display: block;
+      font-size: 18px;
+    }
+  </style>
+</head>
+
+
+
+<div style=" max-width:450px; margin:0 auto;">
+    <div class="top1">
+    </div>
+
+
+
+
+
+
+<body onload="loadPhone()">
+  <div class="header">
+    <button class="signout-btn" onclick="logout()">تسجيل الخروج</button>
+  </div>
+
+  <div class="profile-section">
+    <div class="profile-logo">AUTEL</div>
+    <div class="phone-number" id="userPhone">رقم الهاتف</div>
+  </div>
+
+  <div class="quick-actions">
+    <a href="recharge.html">
+      <i class="fas fa-dollar-sign"></i>
+      <div>شحن</div>
+    </a>
+    <a href="withdraw.html">
+      <i class="fas fa-money-bill-wave"></i>
+      <div>سحب</div>
+    </a>
+    <a href="daily.html">
+      <i class="fas fa-calendar-check"></i>
+      <div>تسجيل يومي</div>
+    </a>
+  </div>
+
+  <div class="ad-banner">
+    <img
+      src="./images/الرسيه2.jpg"
+      width="100%"
+      alt="اعلان"
+    />
+  </div>
+
+  <div class="balances">
+    <div class="balance-box">
+      EGP0.00
+      <strong>الرصيد</strong>
+    </div>
+    <div class="balance-box">
+      EGP0.00
+      <strong>الدخل التراكمي</strong>
+    </div>
+  </div>
+
+  <div class="services">
+    <div><i class="fas fa-download"></i><div>تحميل التطبيق</div></div>
+    <div><i class="fas fa-university"></i><div>إدارة الحساب البنكي</div></div>
+    <div><i class="fas fa-key"></i><div>تغيير كلمة المرور</div></div>
+    <div><i class="fas fa-headset"></i><div>خدمة العملاء</div></div>
+  </div>
+
+  <div class="bottom-nav">
+    <a href="dashboard.html"><i class="fas fa-home"></i>الرئيسية</a>
+    <a href="vip.html"><i class="fas fa-th-large"></i>المنتجات</a>
+    <a href="my-team.html"><i class="fas fa-star"></i>الفريق</a>
+    <a class="active" href="my-profile.html"><i class="fas fa-user"></i>حسابي</a>
+  </div>
+
+  <script>
+    function loadPhone() {
+      const phone = localStorage.getItem("userPhone") || "رقم غير معروف";
+      document.getElementById("userPhone").textContent = phone;
+    }
+
+    function logout() {
+      localStorage.removeItem("loggedIn");
+      window.location.href = "login.html";
+    }
+  </script>
+</body>
+</html>

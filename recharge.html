@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>إعادة الشحن</title>
+  <style>
+    body {
+      background-color: #00c851;
+      color: white;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      padding: 20px;
+    }
+    h2, h3 {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+    select, input, button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: none;
+      font-size: 16px;
+    }
+    select {
+      background-color: #fff;
+      color: #000;
+    }
+    input {
+      background-color: #fff;
+      color: #000;
+    }
+    .amount-buttons {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    .amount-buttons button {
+      background-color: white;
+      color: #00c851;
+      font-weight: bold;
+      border-radius: 10px;
+    }
+    .submit-btn {
+      background-color: white;
+      color: #00c851;
+      font-weight: bold;
+    }
+    .note {
+      background-color: white;
+      color: black;
+      border-radius: 12px;
+      padding: 15px;
+      margin-top: 20px;
+    }
+    .note h4 {
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+    .top-icon-link {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      font-size: 25px;
+      color: white;
+      cursor: pointer;
+      user-select: none;
+      z-index: 1000;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+
+
+
+<div style=" max-width:450px; margin:0 auto;">
+    <div class="top1">
+    </div>
+
+
+
+
+
+
+
+<body>
+  <a href="المدفوعات.html" class="top-icon-link" title="المدفوعات">★</a>
+  <div class="container">
+    <h2>إيداع الأموال</h2>
+    
+    <h3>قنوات الإيداع</h3>
+    <select>
+      <option>اختر قناة الدفع</option>
+    </select>
+
+    <h3>مبلغ إعادة الشحن (الحد الأدنى 150 درهم)</h3>
+    <div class="amount-buttons">
+      <button onclick="fillAmount(600)">600</button>
+      <button onclick="fillAmount(1300)">1300</button>
+      <button onclick="fillAmount(4000)">4000</button>
+      <button onclick="fillAmount(7000)">7000</button>
+      <button onclick="fillAmount(10000)">10000</button>
+      <button onclick="fillAmount(15000)">15000</button>
+      <button onclick="fillAmount(20000)">20000</button>
+      <button onclick="fillAmount(25000)">25000</button>
+    </div>
+
+    <input type="text" id="amountInput" placeholder="يرجى إدخال مبلغ الشحن">
+
+    <button class="submit-btn" onclick="submitRecharge()">اشحن الآن</button>
+
+    <div class="note">
+      <h4>تنبيه بخصوص الشحن</h4>
+      <ol>
+        <li>ساعات عمل بنك المغرب من 9:00 صباحًا إلى 8:30 مساءً.</li>
+        <li>يجب أن تكون الودائع في نفس البنك، ولا يُسمح بالإيداع بين البنوك المختلفة.</li>
+        <li>الحد الأدنى لمبلغ إعادة الشحن هو 150 درهم.</li>
+        <li>بعد نجاح التحويل، يرجى رفع إيصال الدفع وانتظار من 20 إلى 30 دقيقة. إذا لم يصل الدفع لفترة طويلة، يرجى التواصل مع خدمة العملاء.</li>
+        <li>يرجى الالتزام بقواعد الشحن. إذا لم يتم الالتزام بها وتسببت في خسائر، فلن تتحمل الشركة المسؤولية.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- ✅ تم تعديل السكربت هنا -->
+  <script>
+    function fillAmount(amount) {
+      document.getElementById('amountInput').value = amount;
+    }
+
+    function submitRecharge() {
+      const amount = document.getElementById('amountInput').value;
+      if (!amount || isNaN(amount)) {
+        alert("يرجى إدخال مبلغ الشحن بشكل صحيح.");
+        return;
+      }
+
+      // نحفظ المبلغ في localStorage
+      localStorage.setItem("rechargeAmount", amount);
+
+      // الانتقال لصفحة الدفع
+      window.location.href = "payment.html";
+    }
+  </script>
+</body>
+</html>

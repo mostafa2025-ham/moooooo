@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>المنتجات</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #fff;
+      direction: rtl;
+      padding-bottom: 70px;
+    }
+    .header {
+      background-color: #0e0e0e;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      font-size: 20px;
+      position: relative;
+    }
+    .balance {
+      position: absolute;
+      left: 10px;
+      top: 15px;
+      font-size: 16px;
+      color: #00c853;
+    }
+    .tabs {
+      display: flex;
+      justify-content: center;
+      background-color: #f2f2f2;
+    }
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .tab.active {
+      background-color: #00c853;
+      color: white;
+    }
+    .products-container {
+      padding: 10px;
+    }
+    .product {
+      display: flex;
+      align-items: center;
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+    }
+    .product img {
+      width: 80px;
+      height: auto;
+      margin-left: 15px;
+    }
+    .product-info {
+      flex: 1;
+    }
+    .product-info h3 {
+      margin: 0 0 5px;
+    }
+    .product-info p {
+      margin: 2px 0;
+      color: #444;
+    }
+    .buy-button {
+      background-color: #00c853;
+      color: white;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 15px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      height: 60px;
+      background-color: #fff;
+      border-top: 1px solid #ccc;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 999;
+    }
+    .nav-item {
+      text-align: center;
+      color: #888;
+      font-size: 12px;
+      text-decoration: none;
+    }
+    .nav-item i {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 3px;
+    }
+    .nav-item.active {
+      color: #00c853;
+    }
+  </style>
+</head>
+
+
+
+
+<div style=" max-width:450px; margin:0 auto;">
+    <div class="top1">
+    </div>
+
+
+
+
+
+
+
+<body>
+
+  <div class="header">
+    المنتجات
+    <div class="balance" id="balanceDisplay">الرصيد: EGP0.00</div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" data-tab="products">أجهزة التعدين العادية</div>
+    <div class="tab" data-tab="orders">طلباتي</div>
+  </div>
+
+  <div class="products-container" id="productContainer"></div>
+
+  <div class="bottom-nav">
+    <a href="dashboard.html" class="nav-item">
+      <i class="fas fa-home"></i>
+      الرئيسية
+    </a>
+    <a href="products.html" class="nav-item active">
+      <i class="fas fa-th-large"></i>
+      المنتجات
+    </a>
+    <a href="my-team.html" class="nav-item">
+      <i class="fas fa-star"></i>
+      الفريق
+    </a>
+    <a href="my-profile.html" class="nav-item">
+      <i class="fas fa-user"></i>
+      حسابي
+    </a>
+  </div>
+
+  <script>
+    const products = [
+      {
+        id: 1,
+        name: "VIP 1",
+        price: 300,
+        duration: 10,
+        dailyIncome: 60,
+        image: "images/منتجت.png",
+      },
+      {
+        id: 2,
+        name: "VIP 2",
+        price: 600,
+        duration: 20,
+        dailyIncome: 120,
+        image: "images/منتجت.png",
+      },
+      {
+      id: 3,
+        name: "VIP 3",
+        price: 900,
+        duration: 30,
+        dailyIncome: 180,
+        image: "images/منتجت.png"
+      },
+      {
+
+
+       id: 3,
+        name: "VIP 4",
+        price: 1200,
+        duration: 40,
+        dailyIncome: 240,
+        image: "images/منتجت.png"
+
+
+
+
+      },
+      {
+
+
+       id: 3,
+        name: "VIP 5",
+        price: 1500,
+        duration: 45,
+        dailyIncome: 300,
+        image: "images/منتجت.png"
+
+
+
+
+      },
+
+      {
+
+
+        id: 3,
+        name: "VIP 6",
+        price: 1800,
+        duration: 10,
+        dailyIncome: 400,
+        image: "images/منتجت.png"
+
+
+
+      }
+      
+
+
+
+
+
+
+
+    ];
+
+    function updateBalanceDisplay() {
+      const balance = parseFloat(localStorage.getItem('balance')) || 0;
+      document.getElementById("balanceDisplay").textContent = `الرصيد: EGP${balance.toFixed(2)}`;
+    }
+
+    function renderProducts() {
+      const container = document.getElementById("productContainer");
+      container.innerHTML = '';
+      products.forEach(product => {
+        const div = document.createElement("div");
+        div.className = "product";
+        div.innerHTML = `
+          <img src="${product.image}" alt="${product.name}">
+          <div class="product-info">
+            <h3>${product.name}</h3>
+            <p>السعر: EGP${product.price.toFixed(2)}</p>
+            <p>المدة: ${product.duration} أيام</p>
+            <p>الدخل اليومي: EGP${product.dailyIncome.toFixed(2)}</p>
+            <p>إجمالي الدخل: EGP${(product.dailyIncome * product.duration).toFixed(2)}</p>
+            <p style="color: #00c853">دخل يومي ثابت - إعادة استثمار</p>
+          </div>
+          <button class="buy-button" onclick="buyProduct(${product.id})">شراء</button>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function renderOrders() {
+      const container = document.getElementById("productContainer");
+      container.innerHTML = '';
+
+      const orders = JSON.parse(localStorage.getItem('orders')) || [];
+
+      if (orders.length === 0) {
+        container.innerHTML = '<p style="text-align:center; margin-top: 20px;">لا توجد طلبات حالياً</p>';
+        return;
+      }
+
+      orders.forEach(order => {
+        const div = document.createElement("div");
+        div.className = "product";
+        div.innerHTML = `
+          <img src="${order.image}" alt="${order.name}">
+          <div class="product-info">
+            <h3>${order.name}</h3>
+            <p>المدة المتبقية: ${Math.max(order.duration - order.daysPassed, 0)} أيام</p>
+            <p>الدخل اليومي: EGP${order.dailyIncome.toFixed(2)}</p>
+            <p>بدأ يوم: ${order.startDate}</p>
+            <p style="color: #00c853">يتم احتساب الدخل يومياً</p>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function buyProduct(id) {
+      const product = products.find(p => p.id === id);
+      let balance = parseFloat(localStorage.getItem('balance')) || 0;
+
+      if (balance >= product.price) {
+        balance -= product.price;
+        localStorage.setItem('balance', balance.toFixed(2));
+        updateBalanceDisplay();
+
+        const orders = JSON.parse(localStorage.getItem('orders')) || [];
+        const today = new Date().toLocaleDateString('ar-EG');
+
+        orders.push({
+          ...product,
+          startDate: today,
+          daysPassed: 0
+        });
+
+        localStorage.setItem('orders', JSON.stringify(orders));
+        alert("✅ تم الشراء بنجاح وتمت إضافته إلى طلباتك");
+      } else {
+        alert("❌ رصيدك غير كافي");
+      }
+    }
+
+    function updateDailyIncome() {
+      const orders = JSON.parse(localStorage.getItem('orders')) || [];
+      let balance = parseFloat(localStorage.getItem('balance')) || 0;
+
+      const today = new Date().toLocaleDateString('en-CA'); // ISO-like for checking
+
+      const lastIncomeDate = localStorage.getItem('lastIncomeDate');
+      if (lastIncomeDate === today) return; // تم احتساب الدخل اليوم
+
+      let added = 0;
+
+      orders.forEach(order => {
+        if (order.daysPassed < order.duration) {
+          balance += order.dailyIncome;
+          order.daysPassed++;
+          added += order.dailyIncome;
+        }
+      });
+
+      localStorage.setItem('orders', JSON.stringify(orders));
+      localStorage.setItem('balance', balance.toFixed(2));
+      localStorage.setItem('lastIncomeDate', today);
+      updateBalanceDisplay();
+    }
+
+    // عند تحميل الصفحة
+    document.addEventListener("DOMContentLoaded", () => {
+      updateBalanceDisplay();
+      updateDailyIncome();
+      renderProducts();
+
+      const tabs = document.querySelectorAll('.tab');
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+
+          const tabName = tab.getAttribute('data-tab');
+          if (tabName === 'products') {
+            renderProducts();
+          } else if (tabName === 'orders') {
+            renderOrders();
+          }
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>

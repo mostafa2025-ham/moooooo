@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/script.js" defer></script>
+  <meta charset="UTF-8">
+  <title>إشعار</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #111;
+      margin: 0;
+      padding: 0;
+    }
+    .notify-modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      width: 90%;
+      max-width: 400px;
+      border-radius: 10px;
+      text-align: center;
+      padding: 20px;
+    }
+    .notify-header {
+      background-color: #27c24c;
+      color: white;
+      font-size: 24px;
+      padding: 10px;
+      border-radius: 10px 10px 0 0;
+    }
+    .notify-body {
+      padding: 15px;
+      background-color: #f1f1f1;
+      font-size: 14px;
+      color: #333;
+      text-align: right;
+    }
+    .telegram-btn {
+      background-color: #1e90ff;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 8px;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 15px;
+    }
+    .ok-btn {
+      background-color: #27c24c;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      font-size: 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="notify-modal">
+  <h3 class="notify-header">إشعار</h3>
+  <div class="notify-body">
+    يرجى الانضمام إلى قناتنا الرسمية على تيليجرام للحصول على آخر التحديثات والعروض.
+  </div>
+  <a href="https://t.me/AUTEL1D" class="telegram-btn" target="_blank">انقر للانضمام إلى قناة تيليجرام</a><br>
+  <button class="ok-btn" onclick="goToDashboard()">موافق</button>
+</div>
+
+<script>
+  function goToDashboard() {
+    window.location.href = "dashboard.html";
+  }
+</script>
+
+</body>
+</html>

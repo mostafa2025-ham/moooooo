@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/script.js" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تسجيل اليومي</title>
+  <link href="./dashboard.html" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      font-family: 'Cairo', sans-serif;
+      box-sizing: border-box;
+    }
+    body {
+      background-color: #fff;
+      color: #000;
+      text-align: center;
+    }
+    .top-bar {
+      background-color: #25c35a;
+      padding: 15px;
+      position: relative;
+      color: #fff;
+      font-size: 20px;
+    }
+    .top-bar a {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #fff;
+      font-size: 22px;
+      text-decoration: none;
+    }
+    .checkin-image {
+      margin: 20px auto;
+      max-width: 200px;
+    }
+    .bonus-bar {
+      background-color: #25c35a;
+      color: #fff;
+      padding: 10px;
+      font-weight: bold;
+    }
+    .stats {
+      display: flex;
+      justify-content: space-around;
+      padding: 20px;
+    }
+    .stats div {
+      text-align: center;
+    }
+    .stats div span {
+      color: #007bff;
+      font-size: 20px;
+      display: block;
+    }
+    .confirm-btn {
+      background-color: #25c35a;
+      color: white;
+      padding: 15px;
+      border: none;
+      border-radius: 25px;
+      width: 80%;
+      font-size: 18px;
+      margin: 20px auto;
+      display: block;
+      cursor: pointer;
+    }
+    .confirm-btn:disabled {
+      background-color: #aaa;
+      cursor: not-allowed;
+    }
+    #countdown {
+      font-size: 18px;
+      margin: 10px;
+      color: #555;
+    }
+    .rules {
+      text-align: right;
+      padding: 0 20px 40px;
+    }
+    .rules h3 {
+      margin-bottom: 10px;
+    }
+    .rules ol {
+      list-style-position: inside;
+    }
+  </style>
+</head>
+
+
+
+
+<div style=" max-width:450px; margin:0 auto;">
+    <div class="top1">
+    </div>
+
+
+
+
+
+
+
+
+<body onload="loadCheckinData()">
+  <div class="top-bar">
+    <a href="/dashboard.html">&#8592;</a>
+    تسجيل اليومي
+  </div>
+
+  <img src="./images/اليومي.png" alt="Check-in" class="checkin-image">
+
+  <div class="bonus-bar">
+    مكافأة تسجيل الدخول اليومي: <span id="bonusAmount">EGP5.00</span>
+  </div>
+
+  <div class="stats">
+    <div>
+      <span id="currentBalance">EGP0.00</span>
+      الرصيد الحالي
+    </div>
+    <div>
+      <span id="totalCheckins">EGP0.00</span>
+      إجمالي التسجيلات
+    </div>
+  </div>
+
+  <button class="confirm-btn" id="checkinBtn" onclick="dailyCheckin()">تأكيد</button>
+  <div id="countdown"></div>
+
+  <div class="rules">
+    <h3>قواعد التسجيل اليومي:</h3>
+    <ol>
+      <li>هدية يومية مجانية بقيمة EGT5.00</li>
+      <li>يمكنك تسجيل الدخول مرة واحدة يوميًا.</li>
+      <li>بعد الساعة 24:00 يوميًا، يمكنك تسجيل الدخول مرة أخرى.</li>
+    </ol>
+  </div>
+
+  <script>
+    const currentUser = localStorage.getItem("loggedIn");
+    const balanceKey = `balance_${currentUser}`;
+    const checkinsKey = `checkins_${currentUser}`;
+    const lastCheckinKey = `lastCheckinTime_${currentUser}`;
+    const waitHours = 24;
+
+    function loadCheckinData() {
+      const balance = parseFloat(localStorage.getItem(balanceKey)) || 0;
+      const totalCheckins = parseInt(localStorage.getItem(checkinsKey)) || 0;
+
+      document.getElementById("currentBalance").innerText = `EGP${balance.toFixed(2)}`;
+      document.getElementById("totalCheckins").innerText = totalCheckins;
+
+      updateCountdown();
+    }
+
+    function disableCheckinButton(message = "تم تسجيل اليوم") {
+      const btn = document.getElementById("checkinBtn");
+      btn.disabled = true;
+      btn.innerText = message;
+    }
+
+    function dailyCheckin() {
+      const now = new Date();
+      const lastTime = localStorage.getItem(lastCheckinKey);
+      if (lastTime && new Date(lastTime) > now - waitHours * 60 * 60 * 1000) {
+        disableCheckinButton();
+        return;
+      }
+
+      let balance = parseFloat(localStorage.getItem(balanceKey)) || 0;
+      let checkins = parseInt(localStorage.getItem(checkinsKey)) || 0;
+
+      balance += 5;
+      checkins += 1;
+
+      localStorage.setItem(balanceKey, balance.toFixed(2));
+      localStorage.setItem(checkinsKey, checkins);
+      localStorage.setItem(lastCheckinKey, now.toISOString());
+
+      document.getElementById("currentBalance").innerText = `EGT${balance.toFixed(2)}`;
+      document.getElementById("totalCheckins").innerText = checkins;
+
+      updateCountdown();
+    }
+
+    function updateCountdown() {
+      const btn = document.getElementById("checkinBtn");
+      const countdownDiv = document.getElementById("countdown");
+      const lastTimeStr = localStorage.getItem(lastCheckinKey);
+
+      if (!lastTimeStr) {
+        btn.disabled = false;
+        btn.innerText = "تأكيد";
+        countdownDiv.innerText = "";
+        return;
+      }
+
+      const lastTime = new Date(lastTimeStr);
+      const now = new Date();
+      const diffMs = now - lastTime;
+      const hoursPassed = diffMs / (1000 * 60 * 60);
+
+      if (hoursPassed >= waitHours) {
+        btn.disabled = false;
+        btn.innerText = "تأكيد";
+        countdownDiv.innerText = "";
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerText = "تم تسجيل اليوم";
+
+      const timeLeftMs = waitHours * 60 * 60 * 1000 - diffMs;
+      const targetTime = new Date(now.getTime() + timeLeftMs);
+
+      const timer = setInterval(() => {
+        const now = new Date();
+        const remaining = targetTime - now;
+
+        if (remaining <= 0) {
+          clearInterval(timer);
+          btn.disabled = false;
+          btn.innerText = "تأكيد";
+          countdownDiv.innerText = "";
+          return;
+        }
+
+        const hrs = Math.floor((remaining / (1000 * 60 * 60)) % 24);
+        const mins = Math.floor((remaining / (1000 * 60)) % 60);
+        const secs = Math.floor((remaining / 1000) % 60);
+
+        countdownDiv.innerText = `يمكنك التسجيل مرة أخرى بعد ${hrs} ساعة ${mins} دقيقة ${secs} ثانية`;
+      }, 1000);
+    }
+  </script>
+</body>
+</html>
